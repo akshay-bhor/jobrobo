@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+    client:
+        stdin_open: true
+        tty: true
+        build:
+            context: ./client
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /client/node_modules
+            - ./client:/client
+        ports:
+            - "3000:3000"
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /server/node_modules
+            - ./server:/server
+        ports:
+            - "4000:4000"
+        env_file:
+            - ./server/.env
+        depends_on:
+            db:
+                condition: service_healthy
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            - "MYSQL_DATABASE=jobrobo"
+            - "MYSQL_USER=node"
+            - "MYSQL_PASSWORD=secret"
+            - "MYSQL_ROOT_PASSWORD=secret"
+        ports:
+            - "33061:3306"
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 2s
+            retries: 5
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile.dev
+        depends_on:
+            - client
+            - server
+        restart: always
+        ports:
+            - "8080:80"

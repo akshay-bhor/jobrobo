@@ -1,0 +1,55 @@
+.container {
+    @apply w-full;
+
+    .textfieldcontainer {
+        @apply flex flex-row w-full;
+        .prefixcontainer {
+            width: 48px;
+            @apply flex flex-row justify-center items-center;
+
+            img {
+                width: 24px;
+                height: auto;
+            }
+        }
+        .textfield {
+            @apply relative w-full;
+
+            input {
+                border: 1px solid var(--input-border) !important;
+                border-radius: 4px;
+                padding: 11px 30px 11px 11px !important;
+                box-shadow: none !important;
+                font-size: 17px !important;
+                line-height: 22px !important;
+                letter-spacing: -0.408px !important;
+                width: 90%;
+
+                &::placeholder {
+                    color: var(--input-border) !important;
+                }
+
+                &:hover,
+                &:focus {
+                    border: 1px solid var(--input-border) !important;
+                    outline: none;
+                }
+            }
+            img {
+                position: absolute;
+                top: 14px;
+                right: 11px;
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+            }
+        }
+    }
+    .errortext {
+        color: var(--text-alert);
+        font-size: 13px !important;
+        line-height: 18px !important;
+        letter-spacing: -0.078px !important;
+        @apply pt-2 font-normal;
+    }
+}

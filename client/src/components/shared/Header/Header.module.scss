@@ -1,0 +1,22 @@
+.header {
+    @apply w-full flex flex-row justify-center items-center;
+    border-bottom: solid #f2f2f7 1px;
+
+    .container {
+        @apply flex flex-row justify-between gap-4 py-2;
+        width: min(100%, 1080px);
+
+        .logo {
+            img {
+                width: 60px;
+                height: auto;
+            }
+        }
+        .search {
+            @apply flex-grow mt-2;
+        }
+        .dropdownBtnContainer {
+            @apply relative;
+        }
+    }
+}
