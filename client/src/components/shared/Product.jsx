@@ -20,7 +20,7 @@ const Product = (props) => {
         />
       </div>
       <div className={styles.productName}>{props.product_name}</div>
-      <div className={styles.productPrice}>{props.price}</div>
+      <div className={styles.productPrice}>&#8377; {props.price}</div>
       <Button onClick={() => add(props)}>Add to Cart</Button>
     </div>
   );

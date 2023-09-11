@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 exports.createAccessToken = async (cUser) => {
-  console.log(cUser);
   //Expiration Time => 90 days
   let expTime = Math.floor(60 * 60 * 24 * 90);
 
