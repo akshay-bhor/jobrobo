@@ -2,13 +2,15 @@
 import { useEffect, useState } from "react";
 import styles from "./Menu.module.scss";
 import useCategories from "../../../store/categories";
+import useProducts from "../../../store/product";
+import { fetchProductByCategory } from "../../../services/product/productService";
 
-const MenuContainer = () => {
+const MenuContainer = (props) => {
   const categoryTree = useCategories((state) => state.categories);
 
   return (
     <div className={styles.container}>
-      <MenuList list={categoryTree} />
+      <MenuList list={categoryTree} {...props} />
     </div>
   );
 };
@@ -16,6 +18,7 @@ const MenuContainer = () => {
 export default MenuContainer;
 
 const MenuList = (props) => {
+  const updateProductMode = useProducts((state) => state.updateMode);
   const [newMenu, setNewMenu] = useState();
   const treelist = props.list;
 
@@ -30,21 +33,36 @@ const MenuList = (props) => {
     }
   };
 
+  const filterProductsByCategory = (categoryId) => {
+    updateProductMode("category");
+    fetchProductByCategory(categoryId);
+    props.setShowMenu(false);
+  };
+
   return (
     <div className={styles.listContainer}>
       <div className={styles.list}>
         {treelist.map((l, idx) => (
-          <div
-            key={idx}
-            onClick={() => selectMenu(l.category_id)}
-            className={styles.item}
-          >
-            <span>{l.category_name}</span>
-            <span>{l.children && ">"}</span>
+          <div key={idx} className={styles.item}>
+            <span
+              className="cursor-pointer"
+              onClick={() => filterProductsByCategory(l.category_id)}
+            >
+              {l.category_name}
+            </span>
+            <span
+              className="cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                selectMenu(l.category_id);
+              }}
+            >
+              {l.children && ">"}
+            </span>
           </div>
         ))}
       </div>
-      {newMenu && <MenuList list={newMenu} />}
+      {newMenu && <MenuList list={newMenu} setShowMenu={props.setShowMenu} />}
     </div>
   );
 };

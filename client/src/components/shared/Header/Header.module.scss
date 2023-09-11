@@ -18,5 +18,19 @@
         .dropdownBtnContainer {
             @apply relative;
         }
+        .cartContainer {
+            @apply relative flex flex-row items-center;
+
+            img {
+                width: 32px;
+                height: 32px;
+                vertical-align: middle;
+            }
+            .cartCount {
+                @apply absolute;
+                top: 2px;
+                right: 2px;
+            }
+        }
     }
 }

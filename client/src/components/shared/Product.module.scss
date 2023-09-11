@@ -1,0 +1,24 @@
+.productContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0.625rem;
+  border-radius: 0.5rem;
+  box-shadow: rgba(96, 96, 96, 0.16) 0px 4px 8px;
+  overflow: hidden;
+  gap: 0.25rem;
+  width: max(200px, 20%);
+
+  .imgContainer {
+    height: 300px;
+    overflow: hidden;
+    width: 100%;
+
+    .productImg {
+      display: block;
+      height: auto;
+      width: 100%;
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+  }
+}

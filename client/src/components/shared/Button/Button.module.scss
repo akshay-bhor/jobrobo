@@ -12,3 +12,7 @@
 .dark {
   background-color: var(--background-dark);
 }
+
+.disabled {
+    background-color: var(--disabled-color)!important;
+}

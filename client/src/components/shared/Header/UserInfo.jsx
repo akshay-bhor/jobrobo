@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { isLoggedIn } from "../../../util/auth";
 import Button from "../Button/Button";
 import Modal from "../Modal";
 import { Form, Formik } from "formik";
 import TextField from "../../form/TextField/TextField";
 import * as yup from "yup";
+import { authenticate } from "../../../services/auth/authService";
+import useUser from "../../../store/user";
 
 const validationSchema = yup.object({
   email: yup
@@ -19,13 +20,21 @@ const validationSchema = yup.object({
 
 const UserInfo = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const userAuthenticated = isLoggedIn();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const user = useUser((state) => state.user);
 
   const login = (values) => {
-    console.log(values);
+    setError();
+    setLoading(true);
+    authenticate(values).then((res) => {
+      setLoading(false);
+      if (res.error) setError(res.message);
+      else setShowLoginModal(false);
+    });
   };
 
-  if (userAuthenticated) return <div>Welcome User</div>;
+  if (user.isLoggedIn) return <div className="flex flex-row place-items-center h-full">Welcome User</div>;
 
   return (
     <>
@@ -52,11 +61,14 @@ const UserInfo = () => {
           }}
         >
           <Form className="mb-4">
-            <TextField name="email" type="text" placeholder="Email/Username" />
+            <TextField name="email" type="text" placeholder="Email/Username" allowClear={true} />
             <div className="mt-2"></div>
-            <TextField name="pass" type="password" placeholder="Password" />
+            <TextField name="pass" type="password" placeholder="Password" allowClear={true} />
             <div className="mt-2"></div>
-            <Button type="submit" className="w-90">Continue</Button>
+            {error && <div className="text-alert">{error}</div>}
+            <Button type="submit" className="w-90" disabled={loading}>
+              Continue
+            </Button>
           </Form>
         </Formik>
       </Modal>

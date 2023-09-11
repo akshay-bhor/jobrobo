@@ -40,6 +40,7 @@ const SearchForm = () => {
           className={`w-100`}
           handleChange={(val) => setSearchTerm(val)}
           placeholder={`Search for products`}
+          allowClear={true}
         />
       </Form>
     </Formik>

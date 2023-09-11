@@ -24,7 +24,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({
       where: { email: email },
     });
-
+    
     if (user) {
       // Check if pass correct
       let storedPass = user.dataValues.pass;

@@ -6,7 +6,12 @@ const Button = (props) => {
   return (
     <button
       onClick={props.onClick}
-      className={clsx(styles.button, props.className && props.className, props.variant == "dark" && styles.dark)}
+      className={clsx(
+        styles.button,
+        props.className && props.className,
+        props.variant == "dark" && styles.dark,
+        props.disabled && styles.disabled
+      )}
       disabled={props.disabled ? "true" : ""}
       type={props.type}
     >

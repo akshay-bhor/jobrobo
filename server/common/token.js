@@ -1,15 +1,16 @@
 const jwt = require("jsonwebtoken");
 
 exports.createAccessToken = async (cUser) => {
-  // Get immutable data to create token
-  const userInfo = {};
-  userInfo.id = cUser.dataValues.id;
-  userInfo.user = cUser.dataValues.user;
-  userInfo.mail = cUser.dataValues.mail;
-  userInfo.role = "access";
-
+  console.log(cUser);
   //Expiration Time => 90 days
   let expTime = Math.floor(60 * 60 * 24 * 90);
+
+  // Get immutable data to create token
+  const userInfo = {};
+  userInfo.id = cUser.dataValues.user_id;
+  userInfo.email = cUser.dataValues.email;
+  userInfo.role = "access";
+  userInfo.exp = Math.floor(Date.now() / 1000) + expTime;
 
   //Create token
   const token = await this.issueToken(userInfo, expTime);
@@ -25,10 +26,7 @@ exports.issueToken = async (payload, exp) => {
   const token = jwt.sign(
     payload,
     { key: PRIV_KEY, passphrase: process.env.AES_KEY },
-    { algorithm: "RS256" },
-    {
-      expiresIn: exp,
-    }
+    { algorithm: "RS256" }
   );
   return token;
 };
